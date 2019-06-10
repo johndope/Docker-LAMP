@@ -1,0 +1,47 @@
+version: '3'
+services:
+    web:
+        container_name: "sugar-web"
+        image: sugar78_php56_web
+        build: ../../images/php/56
+        ports: 
+          - "8081:80"
+        volumes:
+          - ../../data/html:/var/www/html
+          - ../../config/php/php.ini:/usr/local/etc/php/php.ini
+          - ../../config/apache/local.conf:/etc/apache2/sites-available/local.conf:cached
+        depends_on:
+          - mysql
+          - elasticsearch
+        links:
+          - mysql
+          - elasticsearch
+    mysql:
+        container_name: "sugar-mysql"
+        image: sugar78_mysql56
+        build: ../../images/mysql/56
+        ports:
+          - "3316:3306"
+        volumes:
+          - ../../data/mysql/56:/var/lib/mysql
+        environment:
+          - MYSQL_ROOT_HOST=%
+          - MYSQL_ROOT_PASSWORD=root
+    elasticsearch:
+        container_name: "sugar-elasticsearch"
+        image: sugar78_elastic175
+        build: ../../images/elasticsearch/175
+        volumes:
+          - ../../data/elasticsearch/175:/usr/share/elasticsearch/data
+    cron:
+       container_name: "sugar-cron"
+       image: sugar78_php56_cron
+       build: ../../images/php/56/cron
+       volumes:
+         - ../../data/html:/var/www/html
+       depends_on:
+         - mysql
+         - elasticsearch
+       links:
+         - mysql
+         - elasticsearch
