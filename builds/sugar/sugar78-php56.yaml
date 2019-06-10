@@ -10,6 +10,8 @@ services:
           - ../../data/html:/var/www/html
           - ../../config/php/php.ini:/usr/local/etc/php/php.ini
           - ../../config/apache/local.conf:/etc/apache2/sites-available/local.conf:cached
+          - ../../plugins/wkhtmltox/bin/wkhtmltoimage:/usr/local/bin/wkhtmltoimage:cached
+          - ../../plugins/wkhtmltox/bin/wkhtmltopdf:/usr/local/bin/wkhtmltopdf:cached
         depends_on:
           - mysql
           - elasticsearch

@@ -10,6 +10,9 @@ RUN apt-get -y install --fix-missing apt-utils nano vim wget dialog \
     zlib1g-dev libicu-dev libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
     && rm -rf /var/lib/apt/lists/*
 
+# Install libraries needed for wkhtmltopdf
+RUN apt-get update && apt-get install -y libxrender1 libfontconfig
+
 # Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
